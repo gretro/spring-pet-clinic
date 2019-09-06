@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+
+    # Database pool config
+    initialSize: 1
+    maxActive: 5
+    maxIdle: 10
+    minIdle: 5
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+petclinic:
+  dataseeder:
+    enabled: true

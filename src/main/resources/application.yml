@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    # Database pool config
+    initialSize: 5
+    maxActive: 50
+    maxIdle: 200
+    minIdle: 50
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: false
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  flyway:
+    enabled: true
+
+petclinic:
+  dataseeder:
+    enabled: false

@@ -10,19 +10,19 @@ import java.util.Set;
 
 @Entity
 @Table(
-    name = "vets",
+    name = "customers",
     indexes = {
-        @Index(name = "ix_vets_slug", columnList = "slug", unique = true)
+        @Index(name = "ix_customers_slug", columnList = "slug", unique = true)
     }
 )
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Vet {
+public class Customer {
     @Id
     @GeneratedValue
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "slug", nullable = false)
@@ -34,16 +34,13 @@ public class Vet {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "vets__vet_specialties",
-            joinColumns = @JoinColumn(name = "vet_id"),
-            inverseJoinColumns = @JoinColumn(name = "vet_specialty_id"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "owner_id")
     @ToString.Exclude()
-    private Set<VetSpecialty> specialties;
+    private Set<Pet> pets;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    @CreationTimestamp
+    @CreationTimestamp()
     private Instant createdAt;
 
     @Column(name = "created_by", nullable = false, updatable = false)

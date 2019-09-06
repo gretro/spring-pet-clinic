@@ -1,12 +1,12 @@
 package com.gretro.petclinic.vets.repositories;
 
-import com.gretro.petclinic.vets.models.VetSpecialty;
+import com.gretro.petclinic.vets.models.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface VetSpecialtiesRepository extends JpaRepository<VetSpecialty, Long> {
-    Optional<VetSpecialty> findBySlug(String slug);
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+    Optional<Customer> findBySlug(String slug);
 }
