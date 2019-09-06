@@ -19,6 +19,7 @@ public abstract class SlugHelper {
     private static String curateSlugField(String field) {
         String result = field;
         result = result.toLowerCase();
+        result = result.trim();
         result = stripAccents(result);
         result = result.replaceAll("\s", "-");
         result = result.replace("_", "-");
