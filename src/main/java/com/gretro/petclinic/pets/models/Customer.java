@@ -1,4 +1,4 @@
-package com.gretro.petclinic.vets.models;
+package com.gretro.petclinic.pets.models;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

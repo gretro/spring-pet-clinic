@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface VetSpecialtiesRepository extends JpaRepository<VetSpecialty, Long> {
+public interface VetSpecialtyRepository extends JpaRepository<VetSpecialty, Long> {
     Optional<VetSpecialty> findBySlug(String slug);
 }

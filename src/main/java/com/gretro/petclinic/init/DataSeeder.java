@@ -1,13 +1,13 @@
 package com.gretro.petclinic.init;
 
-import com.gretro.petclinic.vets.models.Customer;
-import com.gretro.petclinic.vets.models.Pet;
+import com.gretro.petclinic.pets.models.Customer;
+import com.gretro.petclinic.pets.models.Pet;
 import com.gretro.petclinic.vets.models.Vet;
 import com.gretro.petclinic.vets.models.VetSpecialty;
-import com.gretro.petclinic.vets.repositories.CustomerRepository;
-import com.gretro.petclinic.vets.repositories.PetRepository;
+import com.gretro.petclinic.pets.repositories.CustomerRepository;
+import com.gretro.petclinic.pets.repositories.PetRepository;
 import com.gretro.petclinic.vets.repositories.VetRepository;
-import com.gretro.petclinic.vets.repositories.VetSpecialtiesRepository;
+import com.gretro.petclinic.vets.repositories.VetSpecialtyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
@@ -22,7 +22,7 @@ import java.util.Set;
 @ConditionalOnProperty("petclinic.dataseeder.enabled")
 @Slf4j
 public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
-    private final VetSpecialtiesRepository vetSpecialtiesRepository;
+    private final VetSpecialtyRepository vetSpecialtyRepository;
     private final VetRepository vetRepository;
     private final CustomerRepository customerRepository;
     private final PetRepository petRepository;
@@ -33,9 +33,9 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private VetSpecialty dentistry;
 
     public DataSeeder(
-            VetSpecialtiesRepository vetSpecialtiesRepository, VetRepository vetRepository,
+            VetSpecialtyRepository vetSpecialtyRepository, VetRepository vetRepository,
             CustomerRepository customerRepository, PetRepository petRepository) {
-        this.vetSpecialtiesRepository = vetSpecialtiesRepository;
+        this.vetSpecialtyRepository = vetSpecialtyRepository;
         this.vetRepository = vetRepository;
         this.customerRepository = customerRepository;
         this.petRepository = petRepository;
@@ -62,7 +62,7 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private void clearValues() {
         log.info("Clearing existing values");
         this.vetRepository.deleteAll();
-        this.vetSpecialtiesRepository.deleteAll();
+        this.vetSpecialtyRepository.deleteAll();
         this.petRepository.deleteAll();
         this.customerRepository.deleteAll();
     }
@@ -95,7 +95,7 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
             .build();
 
         List<VetSpecialty> vetSpecialties = List.of(this.generalist, this.radiology, this.surgery, this.dentistry);
-        this.vetSpecialtiesRepository.saveAll(vetSpecialties);
+        this.vetSpecialtyRepository.saveAll(vetSpecialties);
     }
 
     private void populateVets() {

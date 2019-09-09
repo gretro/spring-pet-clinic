@@ -1,6 +1,6 @@
-package com.gretro.petclinic.vets.repositories;
+package com.gretro.petclinic.pets.repositories;
 
-import com.gretro.petclinic.vets.models.Customer;
+import com.gretro.petclinic.pets.models.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
