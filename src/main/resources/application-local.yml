@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/petclinic
     username: postgres
     password: password
 
@@ -20,5 +20,6 @@ spring:
     enabled: true
 
 petclinic:
+  debug: true
   dataseeder:
     enabled: true

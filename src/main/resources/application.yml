@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    favicon:
+      enabled: false
+
   datasource:
     # Database pool config
     initialSize: 5
@@ -22,5 +26,11 @@ spring:
     enabled: true
 
 petclinic:
+  debug: false
   dataseeder:
     enabled: false
+
+server:
+  error:
+    whitelabel:
+      enabled: false
