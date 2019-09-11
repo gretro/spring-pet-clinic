@@ -1,10 +1,9 @@
 package com.gretro.petclinic.vets.web;
 
 import com.gretro.petclinic.exceptions.EntityNotFoundException;
-import com.gretro.petclinic.helpers.SlugHelper;
 import com.gretro.petclinic.vets.models.VetSpecialty;
-import com.gretro.petclinic.vets.repositories.VetSpecialtyRepository;
-import com.gretro.petclinic.vets.web.dto.CreateVetSpecialtyDto;
+import com.gretro.petclinic.vets.services.VetSpecialtyService;
+import com.gretro.petclinic.vets.web.dto.CreateOrUpdateVetSpecialtyDto;
 import com.gretro.petclinic.vets.web.dto.VetSpecialtiesResponse;
 import com.gretro.petclinic.vets.web.dto.VetSpecialtyDto;
 import com.gretro.petclinic.vets.web.mappers.VetSpecialityMapper;
@@ -20,19 +19,19 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/vet-specialties")
 @Api(value = "Vet Specialties", tags = "Vet Specialties")
 public class VetSpecialtyController {
-    private final VetSpecialtyRepository vetSpecialtyRepository;
+    private final VetSpecialtyService vetSpecialtyService;
     private final VetSpecialityMapper mapper;
 
-    public VetSpecialtyController(VetSpecialtyRepository vetSpecialtyRepository, VetSpecialityMapper mapper) {
+    public VetSpecialtyController(VetSpecialtyService vetSpecialtiesService, VetSpecialityMapper mapper) {
 
-        this.vetSpecialtyRepository = vetSpecialtyRepository;
+        this.vetSpecialtyService = vetSpecialtiesService;
         this.mapper = mapper;
     }
 
     @GetMapping(path = "")
-    @ApiOperation(value = "Get all vet specialities", notes = "Get all vet specialities")
+    @ApiOperation(value = "Get all vet specialities")
     public VetSpecialtiesResponse getAll() {
-        var vetSpecialties = this.vetSpecialtyRepository.findAll();
+        var vetSpecialties = this.vetSpecialtyService.getAllVetSpecialties();
 
         var vetSpecialtyDtos = vetSpecialties.stream()
                 .map(this.mapper::toDto)
@@ -46,9 +45,9 @@ public class VetSpecialtyController {
     }
 
     @GetMapping(path = "{slug}")
-    @ApiOperation(value = "Get vet specialty", notes = "Get specific vet specialty")
+    @ApiOperation(value = "Get vet specialty")
     public VetSpecialtyDto get(@PathVariable String slug) {
-        var dto = this.vetSpecialtyRepository.findBySlug(slug)
+        var dto = this.vetSpecialtyService.findBySlug(slug)
             .map(this.mapper::toDto)
             .orElseThrow(() -> new EntityNotFoundException(VetSpecialty.class, slug));
 
@@ -58,17 +57,20 @@ public class VetSpecialtyController {
     @PostMapping(path = "")
     @ApiOperation(value = "Create vet specialty")
     @ResponseStatus(HttpStatus.CREATED)
-    public VetSpecialtyDto create(@Valid @RequestBody CreateVetSpecialtyDto request) {
+    public VetSpecialtyDto create(@Valid @RequestBody CreateOrUpdateVetSpecialtyDto request) {
         var model = this.mapper.toModel(request);
 
-        // TODO: Replace by smarter service
-        model.setSlug(SlugHelper.calculateSlug(model.getName()));
+        var savedModel = this.vetSpecialtyService.create(model);
 
-        // TODO: Replace with principal information
-        model.setCreatedBy("unknown");
+        return this.mapper.toDto(savedModel);
+    }
 
-        var savedModel = this.vetSpecialtyRepository.save(model);
+    @PutMapping(path = "{slug}")
+    @ApiOperation(value = "Updates a Vet Specialty")
+    public VetSpecialtyDto update(@PathVariable String slug, @Valid @RequestBody CreateOrUpdateVetSpecialtyDto request) {
+        var model = this.mapper.toModel(request);
 
+        var savedModel = this.vetSpecialtyService.update(slug, model);
         return this.mapper.toDto(savedModel);
     }
 }

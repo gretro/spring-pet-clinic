@@ -1,8 +1,7 @@
 package com.gretro.petclinic.vets.web.mappers;
 
-import com.gretro.petclinic.helpers.SlugHelper;
 import com.gretro.petclinic.vets.models.VetSpecialty;
-import com.gretro.petclinic.vets.web.dto.CreateVetSpecialtyDto;
+import com.gretro.petclinic.vets.web.dto.CreateOrUpdateVetSpecialtyDto;
 import com.gretro.petclinic.vets.web.dto.VetSpecialtyDto;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class VetSpecialityMapper {
         return model;
     }
 
-    public VetSpecialty toModel(CreateVetSpecialtyDto dto) {
+    public VetSpecialty toModel(CreateOrUpdateVetSpecialtyDto dto) {
         VetSpecialty model = VetSpecialty.builder()
             .name(dto.getName())
             .build();
